@@ -6,6 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mission To Mars!</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+          }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,9 +19,31 @@
           <h1>{{ text }}</h1>
           <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
         </div>
-    <h3 class="mars-news"><b>Latest Mars News</b></h3>
-    <h4>{{news_data.title}}</h4>
+    <div>
+        <h3 class="mars-news"><b>Latest Mars News</b></h3>
+        <h4><b>{{news_data.title}}</b></h4>
+        <p>{{news_data.paragraph}}</p>
+    </div>    
+    <div>
+        <h3 class="mars-image"><b>Featured Mars Image</b></h3>
+        <img width=750 height=500 src="{{ images_data.image_url }}" alt="Mars Image">
+    </div>
+    <div class="container">
+        <h4><b>Current Weather on Mars</b></h4>
+        <p>{{ weather_data.latest_tweet }}</p>
 
-    <h3 class="mars-image">Featured Mars Image</h3>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Value</th>
+            </tr>
+            {% for key, value in facts_data.items() %}
+            <tr>
+                <td> {{ key }} </td>
+                <td> {{ value }} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
 </html>
