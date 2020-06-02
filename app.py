@@ -18,7 +18,8 @@ def home():
     images_data = mongo.db.images_data.find_one()
     weather_data = mongo.db.weather_data.find_one()
     facts_data = mongo.db.facts_data.find_one()
-    return render_template("index.html", text="Mission to Mars", news_data=news_data, images_data=images_data, weather_data=weather_data, facts_data=facts_data)
+    hemi_data = mongo.db.hemi_data.find_one()
+    return render_template("index.html", text="Mission to Mars", news_data=news_data, images_data=images_data, weather_data=weather_data, facts_data=facts_data, hemi_data=hemi_data)
 
 @app.route("/scrape")
 def scrape():
@@ -41,6 +42,11 @@ def scrape():
     facts_data = mongo.db.facts_data
     facts_scrape_data = scrape_mars.scrape_facts()
     facts_data.update({}, facts_scrape_data, upsert=True)
+
+    # Scrape for mars hemisphere data
+    hemi_data = mongo.db.hemi_data
+    hemi_scrape_data = scrape_mars.scrape_hemi()
+    hemi_data.update({}, hemi_scrape_data, upsert=True)
 
     return redirect("/", code=302)
 

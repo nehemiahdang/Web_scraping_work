@@ -98,8 +98,6 @@ def scrape_weather():
 
 def scrape_facts():
     browser = init_browser()
-    
-    #facts_data = {}
 
     facts_url = 'https://space-facts.com/mars/'
     tables = pd.read_html(facts_url)
@@ -114,5 +112,38 @@ def scrape_facts():
 
     return facts_data
 
-# def scrape_hemi():
-#     browser = init_browser()
+def scrape_hemi():
+    browser = init_browser()
+
+    hemi_data = {}
+
+    hemi_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+
+    browser.visit(hemi_url)
+    time.sleep(5)
+
+    hemi_html = browser.html
+    hemi_soup = bs(hemi_html, 'html.parser')
+
+    hemi_soup.find_all('img', class_='thumb')
+
+    hemi_data['hemi_1_title'] = hemi_soup.find_all('img', class_='thumb')[0]['alt'].strip(' thumbnail')
+    hemi_data['hemi_1_img_url'] = 'https://astrogeology.usgs.gov' + hemi_soup.find_all('img', class_='thumb')[0]['src']
+
+    hemi_data['hemi_2_title'] = hemi_soup.find_all('img', class_='thumb')[1]['alt'].strip(' thumbnail')
+    hemi_data['hemi_2_img_url'] = 'https://astrogeology.usgs.gov' + hemi_soup.find_all('img', class_='thumb')[1]['src']
+
+    hemi_data['hemi_3_title'] = hemi_soup.find_all('img', class_='thumb')[2]['alt'].strip(' thumbnail')
+    hemi_data['hemi_3_img_url'] = 'https://astrogeology.usgs.gov' + hemi_soup.find_all('img', class_='thumb')[2]['src']
+
+    hemi_data['hemi_4_title'] = hemi_soup.find_all('img', class_='thumb')[3]['alt'].strip(' thumbnail')
+    hemi_data['hemi_4_img_url'] = 'https://astrogeology.usgs.gov' + hemi_soup.find_all('img', class_='thumb')[3]['src']
+
+    browser.quit()
+
+    return hemi_data
+
+
+
+
+
